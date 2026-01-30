@@ -1,7 +1,7 @@
 import React from 'react';
 import LoadingSpinner from './LoadingSpinner';
 
-function EmployeeList({ employees, loading, pagination, onEdit, onDelete, onPageChange }) {
+function EmployeeList({ employees, loading, pagination, onView, onEdit, onDelete, onPageChange }) {
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -38,6 +38,12 @@ function EmployeeList({ employees, loading, pagination, onEdit, onDelete, onPage
               <td>{employee.department || '-'}</td>
               <td>{employee.salary ? `₹${parseFloat(employee.salary).toLocaleString()}` : '-'}</td>
               <td className="actions">
+                <button
+                  onClick={() => onView(employee)}
+                  className="btn btn-view"
+                >
+                  View
+                </button>
                 <button
                   onClick={() => onEdit(employee)}
                   className="btn btn-edit"
