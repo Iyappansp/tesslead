@@ -5,13 +5,16 @@ import axios from 'axios';
  * 
  * IMPORTANT: The auth token is defined ONCE here and used globally
  * This ensures the token is not duplicated across files
+ * 
+ * Environment variables are loaded from .env file (local) 
+ * or configured in Vercel (production)
  */
 
-// Base URL for backend API
-const BASE_URL = 'http://localhost:5000';
+// Base URL for backend API - loaded from environment variable
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-// Auth token - defined ONCE in this file only
-const AUTH_TOKEN = 'S@nthosh7';
+// Auth token - loaded from environment variable
+const AUTH_TOKEN = import.meta.env.VITE_AUTH_TOKEN;
 
 // Create axios instance with default configuration
 const apiClient = axios.create({
