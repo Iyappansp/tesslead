@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeList from './components/EmployeeList';
 import EmployeeForm from './components/EmployeeForm';
+import EmployeeView from './components/EmployeeView';
 import ErrorMessage from './components/ErrorMessage';
 import { getEmployees, deleteEmployee } from './api/api';
 
@@ -10,6 +11,7 @@ function App() {
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const [viewingEmployee, setViewingEmployee] = useState(null);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -61,6 +63,16 @@ function App() {
     setShowForm(true);
   };
 
+  // Handle view employee
+  const handleViewEmployee = (employee) => {
+    setViewingEmployee(employee);
+  };
+
+  // Handle close view
+  const handleCloseView = () => {
+    setViewingEmployee(null);
+  };
+
   // Handle delete employee
   const handleDeleteEmployee = async (id) => {
     if (!window.confirm('Are you sure you want to delete this employee?')) {
@@ -107,7 +119,12 @@ function App() {
       <main className="main-content">
         {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
-        {!showForm ? (
+        {viewingEmployee ? (
+          <EmployeeView
+            employee={viewingEmployee}
+            onClose={handleCloseView}
+          />
+        ) : !showForm ? (
           <>
             <div className="controls">
               <form onSubmit={handleSearch} className="search-form">
@@ -129,6 +146,7 @@ function App() {
               employees={employees}
               loading={loading}
               pagination={pagination}
+              onView={handleViewEmployee}
               onEdit={handleEditEmployee}
               onDelete={handleDeleteEmployee}
               onPageChange={handlePageChange}
